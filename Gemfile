@@ -34,7 +34,13 @@ gem 'ruby-dictionary'
 gem 'devise'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'guard-rspec'
+  gem 'spork-rails'
+  gem 'guard-spork'
+  gem 'childprocess'
+end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
