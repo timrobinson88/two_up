@@ -1,0 +1,15 @@
+<b>Game Finished!</b>
+<br>
+<%= @game.winner.user.email %> Has won the Game!
+<br>
+<br>
+<b>The Winning words were:</b>
+<br>
+<% @game.winner.words.each do |word| %>
+  <%= word.string %>
+  <br>
+<% end %>
+
+<br>
+
+<%= link_to "Back to Lobby", games_path %>

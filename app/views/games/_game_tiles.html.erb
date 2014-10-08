@@ -1,0 +1,27 @@
+<div class="wordbox">
+  <div class="word">
+    <ul>
+    </ul>
+  </div>
+  <div class="word">
+    <ul>
+    </ul>
+  </div>
+  <div class="word">
+    <ul>
+    </ul>
+  </div>
+  <div class="word">
+    <ul>
+    </ul>
+  </div>
+  <div class="word">
+    <ul>
+    </ul>
+  </div>
+</div>
+<div class="pile">
+  <% @game.tiles.each do |tile| %>
+    <div class="tile"><%= tile.value %></div>
+  <% end %>
+</div>

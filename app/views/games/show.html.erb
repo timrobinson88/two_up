@@ -1,6 +1,23 @@
-Time to get one up on your mates with Two up!
-<% @game.tiles.each do |tile| %>
-  <div class="tile">
-    <%= tile.value %>
-  </div>
+<% content_for :head do %>
+  <meta name="gameid" content="<%= @game.id %>">
+  <meta name="tileCount" content="<%= @game.tiles.count %>">
+  <meta name="finished" content="<%= @game.finished? %>">
 <% end %>
+
+you are now inside a Two up game!
+
+<%= render partial: 'player_info' %>
+
+<div class="submission-message"></div>
+ 
+<%= render partial: 'game_tiles' if @game.started? %>
+
+<% if !@game.started? %>
+  <%= button_to "Start Game", { action: "start", method: "post", game_id: @game.id } %>
+<% end %>
+
+<%= render partial: 'two_up' if @game.started? %>
+
+<button type="button", class="twoupbutton">Two Up!</button>
+
+<%=link_to "Leave Game", games_path %>

@@ -5,44 +5,28 @@ class Player < ActiveRecord::Base
 
   validates :game_id, :user_id, presence: true
 
-  def advance_stage
-    if game.tiles.count >= game.max_tile_count
-      game.finish!(id)
-    else
-      game.deal_tiles
-    end
+  def advance_stage!
+    game.advance_stage!(self)
   end
 
-  def check_words
-    if !contains_invalid_words? && uses_all_tiles?
-      advance_stage
-    else
-      invalid_words
-    end
+  def submission_correct?
+    !contains_invalid_words? && uses_all_tiles?
   end
+
+  private 
 
   def contains_invalid_words?
     words.any? { |word| !word.exists? }
   end
 
-  def invalid_words
-    puts "invalid words you ignoranus"
+  def uses_all_tiles?
+    tiles_used_in_words == game.available_tiles
   end
 
-  def uses_all_tiles?
-    characters = []
-    words.each do |word|
-      chars = word.string.split('')
-      #insert joining Q's and U's here
-      characters << chars
-    end
-    characters.flatten!
-    characters.sort!
-    game_characters = []
-    game.tiles.each { |tile| game_characters << tile.value }
-    game_characters.sort!
-
-    characters == game_characters
+  def tiles_used_in_words
+    words.flat_map do |word|
+      word.string.gsub('qu', '*').chars.map { |letter| letter == '*' ? 'qu' : letter }
+    end.sort
   end
 end
 

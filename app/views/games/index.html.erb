@@ -1,0 +1,11 @@
+<script type="text/javascript">
+  //setInterval(function(){location.reload()},2000);
+</script>   
+
+<h1>Available Games</h1>
+<% @games.each do |game| %>
+  Game started by:<%= game.players.first.user.email %>
+  <%= button_to("Join Game", game_players_path(game), method: "post") %>
+<% end %>
+ 
+<%= button_to("Create new game", games_path, method: "post") %>

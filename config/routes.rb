@@ -4,12 +4,19 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'games#new'
+  devise_scope :user do
+    root :to => 'devise/sessions#new'
+  end
 
   resources :games do
     resources :players
     resources :tiles
+    resource :words
+    post 'start'
+    post 'refresh'
   end
+
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

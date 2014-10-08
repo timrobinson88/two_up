@@ -1,56 +1,54 @@
 require 'spec_helper'
-
+    
 describe Game do
+ 
+  let(:user) { User.create!(email:"timrobinson@gmail.com", password:'qwertyui', password_confirmation:'qwertyui') }
+  let(:game) { GameCreator.new.make(user) }
+  let(:first_player) { game.players.first }
+
   before do
-    @game = GameMaker.new.make
+    game.start!
   end
+ 
 
-  subject { @game }
+  subject { game }
 
-  it { should respond_to(:deal_tiles) }
-  it { should respond_to(:deal_initial_tiles) }
+  it { should respond_to(:deal_tiles!) }
   it { should respond_to(:start!) }
-  it { should respond_to(:add_player!) }
-  it { should respond_to(:finish!) }
+  it { should respond_to(:finish_and_assign_winner!) }
 
-  context "when a player advances the game" do
-    describe "when the game has already reached its max tile count" do
+  describe "when a player advances the game" do
+    context "when the game has already reached its max tile count" do
       it "should finish the game" do
-        @game.max_tile_count = 12
-        @game.players.first.advance_stage
-        expect(@game).to be_finished
+        game.max_tile_count = 12
+        first_player.advance_stage!
+        expect(game).to be_finished
       end
     end
 
-    describe "when the game does not reach it's max_tile_count" do
+    context "when the game does not reach it's max_tile_count" do
       it "should increase the tile tile count by 2" do
-        expect{ @game.players.first.advance_stage }.to change{ @game.tiles.count }.by(2)
+        expect{ first_player.advance_stage! }.to change{ game.tiles.count }.by(2)
       end
 
       it "should not finish the game" do
-        @game.players.first.advance_stage
-        expect(@game).not_to be_finished
+        first_player.advance_stage!
+        expect(game).not_to be_finished
       end
-    end
-  end
-
-  describe "when a player is added" do
-    it "should increase the games" do
-      expect{ @game.add_player! }.to change{ @game.players.count }.by(1)
     end
   end
 
   describe "when the game is finished" do
     before do
-      @game.finish!(6)
+      game.finish_and_assign_winner!(first_player)
     end
 
     it "should update finished to true" do
-      expect( @game ).to be_finished
+      expect( game ).to be_finished
     end
 
     it "should assign a winner" do
-      expect( @game.winner_id ).to eq(6)
+      expect(game.winner).to eq(first_player)
     end
   end
 end

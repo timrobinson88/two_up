@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918004839) do
+ActiveRecord::Schema.define(version: 20140930045555) do
 
   create_table "games", force: true do |t|
     t.boolean  "started",        default: false
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 20140918004839) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "tiles", ["game_id"], name: "index_tiles_on_game_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
