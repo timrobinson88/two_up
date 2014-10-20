@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     resources :tiles
     resource :words
     post 'start'
-    post 'refresh'
+    post 'refresher'
   end
 
 

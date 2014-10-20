@@ -1,0 +1,6 @@
+<div class="pending">
+<h1>Waiting for Game to Commence</h1>
+<h2>Players in this game: <% @game.players.each do |player| %><%= player.user.email %>, <% end %></h2>
+
+<%= button_to "Start Game Now", { action: "start", method: "post", game_id: @game.id }, {class: 'myButton btn-small'} %>
+</div>

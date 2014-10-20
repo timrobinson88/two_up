@@ -1,23 +1,17 @@
 <% content_for :head do %>
   <meta name="gameid" content="<%= @game.id %>">
-  <meta name="tileCount" content="<%= @game.tiles.count %>">
   <meta name="finished" content="<%= @game.finished? %>">
+  <meta name="started" content="<%= @game.started? %>">
 <% end %>
 
-you are now inside a Two up game!
-
-<%= render partial: 'player_info' %>
-
-<div class="submission-message"></div>
- 
-<%= render partial: 'game_tiles' if @game.started? %>
 
 <% if !@game.started? %>
-  <%= button_to "Start Game", { action: "start", method: "post", game_id: @game.id } %>
+<%= render partial: 'pending' %>
+<% else %>
+<%= render partial: 'two_up' %>
 <% end %>
 
-<%= render partial: 'two_up' if @game.started? %>
 
-<button type="button", class="twoupbutton">Two Up!</button>
-
-<%=link_to "Leave Game", games_path %>
+<script>
+  TwoUp.start();
+</script>

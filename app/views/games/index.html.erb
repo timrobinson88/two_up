@@ -1,11 +1,15 @@
 <script type="text/javascript">
-  //setInterval(function(){location.reload()},2000);
+  setInterval(function(){location.reload()},20000);
 </script>   
-
+<div class="index">
 <h1>Available Games</h1>
-<% @games.each do |game| %>
-  Game started by:<%= game.players.first.user.email %>
-  <%= button_to("Join Game", game_players_path(game), method: "post") %>
-<% end %>
- 
-<%= button_to("Create new game", games_path, method: "post") %>
+  <% @games.each do |game| %>
+    <div class="game-name">Game started by:<%= game.players.first.user.email %></div>
+    <%= button_to("Join Game", game_players_path(game), method: "post", :class=> "myButton small-button") %>
+    <br>
+  <% end %>
+  <br>
+
+   
+  <%= button_to("Create new game", games_path, method: "post", :class=> "myButton") %>
+</div>

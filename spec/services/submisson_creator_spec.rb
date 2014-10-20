@@ -18,12 +18,13 @@ describe SubmissionCreator do
     end
 
     context "when a the player already has words and one is included in the new submission" do
+      let(:submission) { SubmissionCreator.new(player, ["hello", "world"]) }
       before do
         player.words.create!(string: "potato")
         player.words.create!(string: "cheese")
         player.words.create!(string: "hello")
-        SubmissionCreator.new(player, ["hello", "world"]).make!
-
+        
+        submission.make!
       end
 
       it "should delete the existing words that are not in the new submission" do
@@ -32,6 +33,37 @@ describe SubmissionCreator do
 
       it "should not recreate words the player already has" do
         expect(player.words.where(string: "hello").count).to eq(1)
+      end
+
+      it "sets the players words to hello world" do
+        expect(player.words.map(&:string)).to contain_exactly("hello", "world") 
+      end
+
+      it "should be a correct submission" do
+        expect(submission.correct?).to eq(true)
+      end
+
+      it "removes the old words adding or preserving the new ones" do
+        player.words.destroy_all
+
+        player.words.create!(string: "potato")
+        player.words.create!(string: "cheese")
+        player.words.create!(string: "hello")
+
+        submission_creator = SubmissionCreator.new(player, ["hello", "world"])
+
+        expect(player.words.map(&:string)).to contain_exactly(
+          "potato",
+          "cheese",
+          "hello",
+        )
+
+        submission.make!
+
+        expect(players.words.map(&:string)).to contain_exactly(
+          "hello",
+          "world",
+        )
       end
     end
   end

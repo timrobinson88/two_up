@@ -7,12 +7,15 @@ class SubmissionCreator
   end
 
   def make!
-    old_words = player.words.map(&:string)
-    words_to_make = new_words - old_words
-    words_to_destroy = old_words - new_words
+    old_words = @player.words
+    words_to_make = new_words - old_words.map(&:string)
+    words_to_destroy = old_words.select { |word| new_words.exclude? word.string }
     Word.transaction do
-      player.words.where(string: words_to_destroy).destroy_all
-      words_to_make.each { |string| player.words.create!(string: string) } 
+      words_to_destroy.each do |word|
+        word.destroy!
+      end
+      player.words.reset
+      words_to_make.each { |string| @player.words.create!(string: string) } 
     end
   end
 

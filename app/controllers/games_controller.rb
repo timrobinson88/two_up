@@ -27,11 +27,16 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
-  def refresh
-    puts params
+  def refresher
     @game = Game.find(params[:gameId])
-    if Game.finished
-    render json: { actionRequired: refresh_required?.to_s}
+    if @game.finished || @game.started.to_s != params[:started]
+      render json: {actionRequired: 'reload'}
+    elsif @game.tiles.count != params[:tileCount].to_i
+      tiles = tiles_to_add(@game, @game.tiles.count, params[:tileCount].to_i)
+      render json: { actionRequired: 'addTiles', tiles: tiles }
+    else
+      render json: { actionRequired: 'none' }
+    end
   end
 
   private
@@ -41,6 +46,12 @@ class GamesController < ApplicationController
   end
 
   def refresh_required?
-    params[:tileCount].to_i != @game.tiles.count || @game.finished.to_s != params[:finished]
+    params[:tileCount].to_i != @game.tiles.count
+  end
+
+  def tiles_to_add(game, game_tile_count, current_view_tile_count)
+    number_of_tiles_to_add = (game_tile_count - current_view_tile_count)
+    tiles = game.tiles.last(number_of_tiles_to_add).map(& :value)
+    tiles
   end
 end
