@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SubmissionCreator do
   let(:user) { User.create!(email: "jones@jones.com", password:"qwertyui", password_confirmation:"qwertyui") }
-  let(:game) { GameCreator.new.make(user) }
+  let(:game) { CreateGame.new.make(user) }
   let(:player) { game.players.first }
 
   before do
@@ -45,11 +45,9 @@ describe SubmissionCreator do
 
       it "removes the old words adding or preserving the new ones" do
         player.words.destroy_all
-
         player.words.create!(string: "potato")
         player.words.create!(string: "cheese")
         player.words.create!(string: "hello")
-
         submission_creator = SubmissionCreator.new(player, ["hello", "world"])
 
         expect(player.words.map(&:string)).to contain_exactly(
@@ -60,7 +58,7 @@ describe SubmissionCreator do
 
         submission.make!
 
-        expect(players.words.map(&:string)).to contain_exactly(
+        expect(player.words.map(&:string)).to contain_exactly(
           "hello",
           "world",
         )

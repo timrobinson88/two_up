@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Player do
   let(:user) { User.create!(email:"timrobinson@gmail.com", password:'qwertyui', password_confirmation:'qwertyui') }
-  let(:game) { GameCreator.new.make(user) }
+  let(:game) { CreateGame.new.make(user) }
   let(:player) { game.players.first }
 
   before do

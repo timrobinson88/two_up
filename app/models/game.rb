@@ -40,6 +40,6 @@ class Game < ActiveRecord::Base
   end
 
   def deal_initial_tiles!
-      12.times { tiles.create! }
+    12.times { tiles.create! }
   end
 end

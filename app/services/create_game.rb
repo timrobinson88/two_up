@@ -1,4 +1,5 @@
-class GameCreator
+class CreateGame
+  #rename game Creategame
   def make(current_user)
     Game.transaction do
       game = Game.create!

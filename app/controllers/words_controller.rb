@@ -5,28 +5,11 @@ class WordsController < ApplicationController
     words = params[:words]
 
     submission = SubmissionCreator.new(player, words)
-    submission.make!
+    result = submission.make!
 
-    if submission.correct?
-      player.advance_stage!
-
-      if game.finished?
         render json: {
-          submissionResult: "gameFinished"
-        }
-
-      else
-        render json: {
-          submissionResult: "tilesDealt",
+          submissionResult: result,
           letters: game.tiles.last(2).map(& :value),
-          message: "nailed it boy"
         }
-      end
-    else
-      render json: {
-        submissionResult: "incompleteSubmission",
-        message: "You would make an awful word smith rookie"
-      }
-    end
   end
 end

@@ -10,13 +10,13 @@ class Player < ActiveRecord::Base
   end
 
   def submission_correct?
-    !contains_invalid_words? && uses_all_tiles?
+    all_words_valid? && uses_all_tiles?
   end
 
   private 
 
-  def contains_invalid_words?
-    words.any? { |word| !word.exists? }
+  def all_words_valid?
+    words.all? { |word| word.exists? }
   end
 
   def uses_all_tiles?

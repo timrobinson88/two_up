@@ -3,6 +3,8 @@ class Word < ActiveRecord::Base
 
   belongs_to :player
 
+  validates :string, length: { minimum: 1 }
+
   def exists?
     DICTIONARY.exists?(string)
   end

@@ -3,14 +3,13 @@ class GamesController < ApplicationController
 
   def index
     @games = Game.where(started: false)
-    @player = Player.new
   end
 
   def new
   end
 
   def create
-    @game = GameCreator.new.make(current_user)
+    @game = CreateGame.new.make(current_user)
     redirect_to @game
   end
 

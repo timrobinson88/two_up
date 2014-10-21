@@ -30,11 +30,11 @@ end
 
 Given(/^another user has created an unstarted game$/) do
   gamemaker = User.create!(email: "gamemaker@example.com", password: "qwertyui", password_confirmation: "qwertyui")
-  @game = GameCreator.new.make(gamemaker)
+  @game = CreateGame.new.make(gamemaker)
 end
 
 Then(/^I should be able to see the other user's game$/) do
-  expect(page).to have_content("Game started by:gamemaker@example.com")
+  expect(page).to have_content("Game started by: gamemaker@example.com")
 end
 
 When(/^I have joined the other user's game$/) do

@@ -13,11 +13,11 @@ def invalid_words(words)
   invalid_words
 end
 
-def contains_invalid_words?(words)
+def all_words_valid?(words)
   words.any? { |word| !DICTIONARY.exists?(word) }
 end
 
-if contains_invalid_words?(words)
+if all_words_valid?(words)
   puts invalid_words(words)
 else
   puts 'all words correct'
