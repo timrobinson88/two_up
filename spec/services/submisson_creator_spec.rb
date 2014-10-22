@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SubmissionCreator do
+describe CreateSubmission do
   let(:user) { User.create!(email: "jones@jones.com", password:"qwertyui", password_confirmation:"qwertyui") }
   let(:game) { CreateGame.new.make(user) }
   let(:player) { game.players.first }
@@ -13,12 +13,12 @@ describe SubmissionCreator do
 
   describe "Making a new submission" do
     it "should save the submitted words to the player" do 
-      SubmissionCreator.new(player, ["hello", "world"]).make!
+      CreateSubmission.new(player, ["hello", "world"]).make!
       expect(player.words.map(&:string)).to eq(["hello", "world"])
     end
 
     context "when a the player already has words and one is included in the new submission" do
-      let(:submission) { SubmissionCreator.new(player, ["hello", "world"]) }
+      let(:submission) { CreateSubmission.new(player, ["hello", "world"]) }
       before do
         player.words.create!(string: "potato")
         player.words.create!(string: "cheese")
@@ -48,7 +48,7 @@ describe SubmissionCreator do
         player.words.create!(string: "potato")
         player.words.create!(string: "cheese")
         player.words.create!(string: "hello")
-        submission_creator = SubmissionCreator.new(player, ["hello", "world"])
+        submission_creator = CreateSubmission.new(player, ["hello", "world"])
 
         expect(player.words.map(&:string)).to contain_exactly(
           "potato",

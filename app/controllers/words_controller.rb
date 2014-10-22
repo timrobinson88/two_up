@@ -4,12 +4,18 @@ class WordsController < ApplicationController
     player = game.players.where(user_id: current_user).first!
     words = params[:words]
 
-    submission = SubmissionCreator.new(player, words)
-    result = submission.make!
-
-        render json: {
-          submissionResult: result,
-          letters: game.tiles.last(2).map(& :value),
-        }
+    begin
+      submission = CreateSubmission.new(player, words)
+      result = submission.make!
+      render json: {
+        submissionResult: result,
+        letters: game.tiles.last(2).map(& :value),
+      }
+    rescue Exception => e
+      render json: {
+        submissionResult: "save failure",
+        errorMessage: "#{e.message}"
+      }
+    end
   end
 end

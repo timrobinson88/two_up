@@ -16,7 +16,15 @@ class GamesController < ApplicationController
   def show
     @game = Game.find(params[:id])
     @player = @game.players.where(user: current_user).first
-    render 'finished' if @game.finished?
+    @players_emails = @game.players.map{ |player| player.user.email }
+
+    if @game.finished?
+      render 'finished'
+    elsif @game.started?
+      render 'two_up'
+    else
+      render 'pending'
+    end
   end
 
   def start

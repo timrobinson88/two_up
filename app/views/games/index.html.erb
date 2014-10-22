@@ -1,8 +1,8 @@
-<script type="text/javascript">
-  setInterval(function(){location.reload()},20000);
-</script>
 
-<div class="index">
+<% content_for :head do %>
+  <meta http-equiv="refresh" content="5">
+<% end %> 
+<div id="index">
   <h1>Available Games</h1>
 
   <% @games.each do |game| %>
@@ -10,8 +10,8 @@
       Game started by: <%= game.players.first.user.email %>
     </div>
     
-    <%= button_to("Join Game", game_players_path(game), method: "post", :class=> "myButton small-button") %>
-    <br>
+    <%= button_to("Join Game", game_players_path(game), method: "post", :class=> "myButton small-button joingame") %>
+
   <% end %>
 
   <br>

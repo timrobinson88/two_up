@@ -1,0 +1,29 @@
+<%= render "variables" %>
+
+<div class="leftside">
+  <h1>Game in Progress</h1>
+  <h2>You are playing with: <%= user_emails(@game) %></h2>
+  <div class="submission-message">
+  </div>
+  <h2>Your Tiles</h2><br>
+  <div class="pile">
+    <% @game.tiles.each do |tile| %>
+      <div class="tile"><%= tile.value %></div>
+    <% end %>
+  </div>
+
+  <div class="twoup-container">
+    <button type="button", class=" twoupbutton myButton btn-small">Two Up!</button>
+    <%=link_to "Leave Game", games_path %>
+  </div>
+</div>
+
+
+<div class="rightside">
+  <div class="wordbox">
+    <% 10.times do %>
+      <div class="word">
+      </div>
+    <% end %>
+  </div>
+</div>

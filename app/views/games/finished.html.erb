@@ -1,13 +1,10 @@
 <div class="pending">
-<h1>Game Finished!</h1>
-<h2><%= @game.winner.user.email %> Has won the Game!</h2>
+  <h1>Game Finished!</h1>
 
-<b>The Winning words were:</b>
-<% @game.winner.words.each do |word| %>
-  <%= word.string %>,
-<% end %>
+  <h2><%= @game.winner.user.email %> Has won the Game!</h2>
 
-<br>
+  <b>The Winning words were:</b>
+  <%= winning_words(@game) %><br>
 
-<%= link_to "Back to Lobby", games_path %>
+  <%= button_to "Back to Lobby", games_path, method: "get", :class => "myButton" %>
 </div>

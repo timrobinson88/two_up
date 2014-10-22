@@ -1,0 +1,5 @@
+<% content_for :head do %>
+  <%= tag :meta, name: "gameid", content: @game.id %>
+  <%= tag :meta, name: "finished", content: @game.finished? %>
+  <%= tag :meta, name: "started", content: @game.started? %>
+<% end %>
